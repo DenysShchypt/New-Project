@@ -1,51 +1,26 @@
 const refs = {
+    title: document.querySelector("#titleBlog"),
     form: document.querySelector("#newBlog"),
-    listBlogs: document.querySelector('#blog')
+    listBlogs: document.querySelector('#listBlogs')
+};
+document.addEventListener("DOMContentLoaded", createAllBlogsHandler)
+refs.form.addEventListener("submit", createNewBlogHandler);
+const getInformationUser = localStorage.getItem('user');
+const informationUser = JSON.parse(getInformationUser);
+const token = informationUser.token
+
+
+const fetchAllOptions = {
+    method: "GET",
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+    }
 };
 
-refs.form.addEventListener("submit", createNewBlogHandler);
-function createNewBlogHandler(event) {
-    event.preventDefault();
 
-    const title = event.target.elements.title.value;
-    const text = event.target.elements.description.value;
+function createAllBlogsHandler() {
 
-
-    const fetchCreateOptions = {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ title, text }),
-    };
-    const fetchAllOptions = {
-        method: "GET",
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    };
-    fetch(
-        `http://localhost:3030/api/blogs`,
-        fetchCreateOptions
-    )
-        .then(response => {
-            console.log(response);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-
-            // window.location.href = "blog.html";
-            document.getElementById("successCreate").style.display = "block";
-            // action = "index.html"
-
-        })
-        .catch(error => {
-            console.log(error.message);
-        });
 
 
     fetch(
@@ -56,31 +31,91 @@ function createNewBlogHandler(event) {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-
-
             return response.json();
         })
-        .then(createBlogs)
+        .then(createAllBlogs)
         .catch(error => {
             console.log(error.message);
         });
-    return false
-
+    fetch(
+        `http://localhost:3030/api/auth/current`,
+        fetchAllOptions
+    )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            refs.title.innerHTML = `Hello ${data}`
+        })
+        .catch(error => {
+            console.log(error.message);
+        });
 }
 
+function createNewBlogHandler(event) {
+    event.preventDefault();
 
-function createBlogs(data) {
-    const markupCard = createMarkupBlogs(data);
-    refs.form.insertAdjacentHTML('afterend', markupCard);
+    const title = event.target.elements.title.value;
+    const text = event.target.elements.description.value;
+    const fetchCreateOptions = {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ title, text }),
+    };
+    fetch(
+        `http://localhost:3030/api/blogs`,
+        fetchCreateOptions
+    )
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(createNewBlog)
+        .catch(error => {
+            console.log(error.message);
+        });
+    refs.form.reset()
+}
+function createNewBlog(data) {
+    const markupCard = createMarkupOneBlog(data);
+    refs.listBlogs.insertAdjacentHTML("beforeend", markupCard);
+}
+
+function createMarkupOneBlog(blog) {
+    return `<ul class="list boxBlog" >
+    <li class="itemFirstName"> ${blog.firstName}</li>
+    <li class="itemLastName"> ${blog.lastName}</li>
+    <li class="itemTitle">Title: ${blog.title}</li>  
+    <li class="itemText">Text: ${blog.text}</li>
+    <li class="itemDate">Date: ${blog.date}</li>  
+  </ul>`
+}
+function createAllBlogs(data) {
+    const markupCards = createMarkupBlogs(data);
+    refs.listBlogs.innerHTML = markupCards;
 }
 
 function createMarkupBlogs(blogs) {
-
-    return blogs.map(({ date, title, text }) => {
-        return `<ul > Blog
-    <li class="item-card">Title: ${title}</li>
-    <li class="item-card">Text: ${text}</li>
-    <li class="item-card">Date: ${date}°С</li>
+    return blogs.map(({ date, title, text, firstName, lastName }) => {
+        return `<ul class="list boxBlog" >
+    <li class="itemFirstName">${firstName}</li>
+    <li class="itemLastName">${lastName}</li>
+    <li class="itemTitle">Title: ${title}</li>
+    <li class="itemText">${text}</li>
+    <li class="itemDate">Date: ${date}</li>
   </ul>`}).join('')
 
 }
+
+
+
+
+

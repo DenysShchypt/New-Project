@@ -13,7 +13,7 @@ export const registrationSchema = Joi.object({
     password: Joi.string().required().messages({
         "any.required": `"password" must be exist`
     }),
-})
+});
 
 export const addBlogSchema = Joi.object({
     title: Joi.string().required().messages({

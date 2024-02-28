@@ -5,23 +5,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@800&family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="./sass/index.scss" />
 </head>
 
 <body>
-  <form id="newUser" action="blog.html">
-    <label for="name">First Name<input name="firstName" type="text" /></label>
-    <label for="name">Last Name<input name="lastName" type="text" /></label>
-    <label for="email"> Email <input name="email" type="email" /></label>
-    <label for="password"> New password <input name="password" type="password" /></label>
-    <button type="submit">Registration</button>
-  </form>
+  <header class=" container">
+    <h1 class="titleBlog">Welcome you to our fun blog😊</h1>
+  </header>
+
+
   <main>
-    <div id="successBlog" style="display: none; color: green;">Реєстрація успішна!</div>
+    <section class="sectionRegistration">
+      <form id="newUser" action="blog.html">
+        <label class="formLabel" for="name">First Name</label>
+        <input class="formInput" name="firstName" type="text" />
+        <label class="formLabel" for="name">Last Name</label>
+        <input class="formInput" name="lastName" type="text" />
+        <label class="formLabel" for="email"> Email </label>
+        <input class="formInput" name="email" type="email" />
+        <label class="formLabel" for="password"> Password </label>
+        <input class="formInput" name="password" type="password" />
+        <button class="btnRegistration" type="submit">Registration</button>
+      </form>
+    </section>
   </main>
-
-
-
   <script src="./js/featchRegister.js" type="module"></script>
 
 </body>

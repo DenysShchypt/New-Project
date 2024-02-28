@@ -5,16 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@800&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="./sass/index.scss" />
 </head>
 
 <body>
-    <div>hello blog</div>
-    <form id="newBlog">
-        <label for="name">Title<input name="title" type="text" /></label>
-        <label for="name">Text<input name="description" type="text" /></label>
-        <button type="submit">Send</button>
-    </form>
-    <div id="successCreate" style="display: none; color: green;">Success</div>
+    <header class="titleListBlog container">
+        <h2 class="titleListBlog" id="titleBlog"></h2>
+    </header>
+    <main>
+        <section class="sectionCreateNewBlog">
+            <form id="newBlog">
+                <label class="formLabel" for="name">Title</label>
+                <input class="formBlogInput" name="title" type="text" />
+                <label class="formLabel" for="name">Text</textarea></label>
+                <textarea class="formText" rows="5" name="description" placeholder="Your text"></textarea>
+                <button class="btnCreateNewBlog" type="submit">Send</button>
+            </form>
+        </section>
+        <section class="sectionBlogs container">
+            <div id="listBlogs"></div>
+        </section>
+    </main>
+
 
 
     <script type="module" src="./js/createBloge.js"></script>

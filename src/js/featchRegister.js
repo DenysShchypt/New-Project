@@ -1,7 +1,5 @@
 document.querySelector("#newUser").addEventListener("submit", formHandler);
 
-
-
 function formHandler(event) {
     event.preventDefault();
 
@@ -23,21 +21,20 @@ function formHandler(event) {
         fetchOptions
     )
         .then(response => {
-            console.log(response);
-
             if (!response.ok) {
-                throw new Error('Networksfdfsdgs response was not ok');
+                throw new Error('Net response was not ok');
             }
             return response.json();
         })
         .then((data) => {
-
-            document.getElementById("successBlog").style.display = "block";
+            const saveInformationUser = JSON.stringify(data);
+            localStorage.setItem("user", saveInformationUser);
             window.location.href = "blog.html";
         })
         .catch(error => {
             console.log(error.message);
         });
+    event.target.reset();
 }
 
 

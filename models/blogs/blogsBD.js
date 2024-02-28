@@ -1,8 +1,10 @@
 import fs from "fs/promises";
 import path from "path";
+import { compareAsc, format } from "date-fns";
 import { nanoid } from "nanoid";
 
-const blogsPath = path.resolve("backend", "models", "blogs", "blogs.json");
+
+const blogsPath = path.resolve("models", "blogs", "blogs.json");
 const updateBlogs = blogs => fs.writeFile(blogsPath, JSON.stringify(blogs, null, 2));
 
 export const getAllBlogs = async () => {
@@ -11,17 +13,13 @@ export const getAllBlogs = async () => {
 }
 
 export const createBlog = async (data) => {
-
-
+    const date = format(new Date(), "yyyy-MM-dd HH:mm:ss");
     const blogs = await getAllBlogs();
-    // Зробити запрос на юзера
     const newBlog = {
         id: nanoid(),
-        date: new Date(),
+        date,
         ...data
     }
-
-
     blogs.push(newBlog);
     await updateBlogs(blogs);
     return newBlog;
